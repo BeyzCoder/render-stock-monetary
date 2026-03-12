@@ -21,8 +21,9 @@ async def fetch_text(url: str) -> str:
         "Sec-Fetch-User": "?1",
     }
     async with httpx.AsyncClient(headers=headers, timeout=10) as client:
+        print(url)
         resp = await client.get(url)
-
+        print("get")
         if resp.status_code != 200:
             raise HTTPError(resp.url, resp.status_code, "", resp.headers, None) # For dev purpose.
 
