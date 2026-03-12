@@ -25,7 +25,7 @@ async def fetch_text(url: str, attach_url: str) -> str:
 
         resp = await client.get(redirect_url+attach_url)
         if resp.status_code != 200:
-            raise HTTPError(resp.url, resp.status_code, "", resp.headers, None)
+            raise HTTPError(resp.url, resp.status_code, "", resp.headers, None) # For dev purpose.
 
     return resp.text
 
@@ -45,7 +45,7 @@ async def get_item(ticker: str, type_statement: str) -> dict:
         raw_data = scraping.scrape_statement(html_text)
         statement = scraping.fixed_data(raw_data)
     except HTTPError as err:
-        raise ValueError(f"The ticker does not exist from the source material, it got status code: {err.code} and the url: {err.url}")
+        raise ValueError(f"The ticker does not exist from the source material")
     except KeyError as err:
         raise ValueError(f"The ticker does not have data from the source material")
     
