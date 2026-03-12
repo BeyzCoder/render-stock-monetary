@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.responses import Response
 from dotenv import load_dotenv
 
-from api.v1.routes import statements, quotes
+from app.api.v1.routes import statements, quotes
 
 # Load environment variables from .env file
 load_dotenv()

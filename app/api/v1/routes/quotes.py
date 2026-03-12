@@ -1,7 +1,7 @@
 from fastapi import APIRouter, status, HTTPException
 from fastapi.responses import StreamingResponse
 
-from api.v1.services import item_quotes
+from app.api.v1.services import item_quotes
 
 router = APIRouter()
 

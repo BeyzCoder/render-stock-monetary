@@ -3,7 +3,7 @@ from cachetools import TTLCache     # FOR SMALL DEPLOYMENT ONLY. REMOVE WHEN SCA
 import httpx
 import os
 
-from api.v1.utils import scraping
+from app.api.v1.utils import scraping
 
 cache = TTLCache(maxsize=10, ttl=300)  # 10 items, 5 min expiry
 

@@ -4,7 +4,7 @@ import httpx
 from httpx import ReadTimeout
 import os
 
-from api.v1.utils import scraping
+from app.api.v1.utils import scraping
 
 cache = TTLCache(maxsize=10, ttl=300)  # 10 items, 5 min expiry
 

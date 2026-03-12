@@ -1,7 +1,7 @@
 from fastapi import APIRouter, status, HTTPException
 from fastapi.responses import JSONResponse
 
-from api.v1.services import item_statements
+from app.api.v1.services import item_statements
 
 router = APIRouter()
 
