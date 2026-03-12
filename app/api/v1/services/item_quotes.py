@@ -23,7 +23,7 @@ async def fetch_text(url: str) -> str:
     async with httpx.AsyncClient(headers=headers, timeout=10) as client:
         print(url)
         resp = await client.get(url)
-        print("get")
+        print(f"get {resp.status_code}")
         if resp.status_code != 200:
             raise HTTPError(resp.url, resp.status_code, "", resp.headers, None) # For dev purpose.
 
