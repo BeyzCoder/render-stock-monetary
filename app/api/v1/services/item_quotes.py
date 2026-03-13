@@ -21,11 +21,8 @@ async def fetch_text(url: str) -> str:
         "Sec-Fetch-User": "?1",
     }
     async with httpx.AsyncClient(headers=headers, timeout=10) as client:
-        print(url)
         resp = await client.get(url)
-        print(f"status: {resp.status_code}")  # print status first
-        print(f"headers: {resp.headers}")     # print all headers, not just location
-        print(f"body: {resp.text[:500]}")     # print what Yahoo is returning
+
         if resp.status_code != 200:
             raise HTTPError(resp.url, resp.status_code, "", resp.headers, None) # For dev purpose.
 
@@ -40,11 +37,11 @@ async def get_item(ticker: str, type_quote: str) -> str:
 
     try:
         # Fetch the item.
-        url = os.getenv(type_quote) 
-        html_text = await fetch_text(url.format(ticker))
+        # url = os.getenv(type_quote) 
+        # html_text = await fetch_text(url.format(ticker))
         
         # Build the item.
-        quote = scraping.scrape_quote(html_text)
+        quote = scraping.scrape_quote(ticker)
     except ReadTimeout as err:
         raise ValueError("Request timed out, please try again later")
     except HTTPError as err:

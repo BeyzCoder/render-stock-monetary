@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 from typing import Dict, List
 from io import StringIO
 import pandas as pd
+import yfinance as yf
 import ast
 import re
 
@@ -29,22 +30,35 @@ def scrape_statement(html_text: str) -> List[Dict]:
     return convert_value
 
 
-def scrape_quote(html_text: str) -> str:
-    # Convert BeautifulSoup object.
-    soup = BeautifulSoup(html_text, 'html.parser')
+def scrape_quote(ticker: str) -> str:
+    # # Convert BeautifulSoup object.
+    # soup = BeautifulSoup(html_text, 'html.parser')
 
-    # Locate the table.
-    table = soup.find('div', class_='table-container')
+    # # Locate the table.
+    # table = soup.find('div', class_='table-container')
     
-    # Convert it to pandas dataframe
-    df = pd.read_html(StringIO(str(table)))[0]
+    # # Convert it to pandas dataframe
+    # df = pd.read_html(StringIO(str(table)))[0]
 
-    # Fixed the header and remove uncessary rows
-    df.columns.values[-2] = 'Adj Close'
-    df.columns.values[-3] = 'Close'
-    df = df[~df['Open'].str.contains('Dividend', na=False)]
+    # # Fixed the header and remove uncessary rows
+    # df.columns.values[-2] = 'Adj Close'
+    # df.columns.values[-3] = 'Close'
+    # df = df[~df['Open'].str.contains('Dividend', na=False)]
 
-    # Turn it into csv file.
+    # # Turn it into csv file.
+    # csv_data = df.to_csv(index=False)
+
+    # Temporary. TODO: Need to handle my own data.
+    ticker = yf.Ticker(ticker)
+    df = ticker.history(period="max")  
+
+    df = df.iloc[:, :-2]  # keep all rows, drop last 2 columns
+    df[['Open', 'High', 'Low', 'Close']] = df[['Open', 'High', 'Low', 'Close']].round(2)
+    
+    df.index = df.index.date
+    df = df.reset_index()
+    df = df.rename(columns={'index': 'Date'})  # rename if needed
+
     csv_data = df.to_csv(index=False)
 
     return csv_data
