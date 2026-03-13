@@ -23,7 +23,9 @@ async def fetch_text(url: str) -> str:
     async with httpx.AsyncClient(headers=headers, timeout=10) as client:
         print(url)
         resp = await client.get(url)
-        print(f"get {resp.status_code}, {resp.headers["location"]}")
+        print(f"status: {resp.status_code}")  # print status first
+        print(f"headers: {resp.headers}")     # print all headers, not just location
+        print(f"body: {resp.text[:500]}")     # print what Yahoo is returning
         if resp.status_code != 200:
             raise HTTPError(resp.url, resp.status_code, "", resp.headers, None) # For dev purpose.
 
